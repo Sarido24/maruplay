@@ -1,5 +1,10 @@
+import Navbar from "../components/Navbar";
+
 export default function RegisterPageUser(){
     return(
-        <>Register User</>
+        <>
+        <Navbar />
+        <h1>Register</h1>
+        </>
     )
 }

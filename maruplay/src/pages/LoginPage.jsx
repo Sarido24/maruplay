@@ -1,12 +1,18 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 export default function LoginPage() {
+
+    const navigate = useNavigate()
   const [dataLogin, setDataLogin] = useState({
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false)
+
 
   function handleSubmit(e) {
     // setError(null);
@@ -14,18 +20,49 @@ export default function LoginPage() {
     const value = e.target.value;
 
     setDataLogin({
-        ...dataLogin,
-        [name]:value
-    })
+      ...dataLogin,
+      [name]: value,
+    });
   }
 
-  console.log(dataLogin);
+  async function login(data) {
+    try {
+      setLoading(true);
+      const response = await axios({
+        method: "post",
+        url: import.meta.env.VITE_BASE_URL + "/login",
+        data,
+      });
+      if (response.statusText === "OK") {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Login success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        localStorage.setItem("access_token", response.data.access_token);
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    //   setError(error.response.data);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function handleLogin(e) {
+    login(dataLogin);
+  }
+
+  //   console.log(dataLogin);
   return (
     <>
       <Navbar />
       <div className="flex w-full justify-center items-center h-[100vh] bg-secondary md:bg-white">
-        <div className="flex flex-col items-center h-[50vh] md:h-[70vh] md:w-[70vh] md:bg-secondary md:shadow-xl">
-          <h1 className="text-3xl font-bold text-center p-10 text-sky-500">
+        <div className="flex flex-col items-center h-[50vh] md:h-[70vh] md:w-[70vh] md:bg-secondary md:shadow-xl rounded-lg">
+          <h1 className="text-3xl font-bold text-center p-10 text-sky-500 uppercase">
             Login
           </h1>
           {/* {loading&& <p>Loading...</p>}
@@ -58,9 +95,8 @@ export default function LoginPage() {
               </div>
 
               <div className="flex justify-evenly py-10 gap-5">
-
                 <button
-                  // onClick={handleLogin}
+                  onClick={handleLogin}
                   className="p-2 bg-sky-600 hover:transition-transform hover:scale-105 hover:duration-500  text-white rounded-md w-16"
                 >
                   Login

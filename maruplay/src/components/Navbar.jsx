@@ -1,7 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+  const navigate = useNavigate();
+  function handleLogout() {
+    localStorage.removeItem("access_token");
+    navigate("/login");
+  }
+
   const [isOpen, setIsOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
 
@@ -20,16 +26,25 @@ export default function Navbar() {
           </p>
 
           <div className="flex flex-col">
-            <p onClick={()=>{
-              setAccountOpen(!accountOpen)
-            }} className="cursor-pointer hover:text-white">
+            <p
+              onClick={() => {
+                setAccountOpen(!accountOpen);
+              }}
+              className="cursor-pointer hover:text-white"
+            >
               <i class="fa-solid fa-user"></i> account
             </p>
             {accountOpen && (
               <div className="flex flex-col fixed top-10 bg-white text-black p-5">
-                <Link to={"/login"}>Sign in</Link>
-                <Link>Sign Up</Link>
-                <Link>Sign Out</Link>
+                {localStorage.getItem("access_token") && (
+                  <button onClick={handleLogout}>Sign Out</button>
+                )}
+                {!localStorage.getItem("access_token") && (
+                  <div className="flex flex-col">
+                    <Link to={"/login"}>Sign in</Link>
+                    <Link to={"/register"}>Sign Up</Link>
+                  </div>
+                )}
               </div>
             )}
           </div>
