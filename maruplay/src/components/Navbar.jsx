@@ -19,10 +19,10 @@ export default function Navbar() {
         </div>
         <div className="justify-between gap-10 hidden lg:flex text-gray-500">
           <p className="">
-            <i class="fa-solid fa-phone"></i> +62 0857611788
+            <i className="fa-solid fa-phone"></i> +62 0857611788
           </p>
           <p className="px-2 border-x border-gray-500">
-            <i class="fa-solid fa-envelope"></i> user@mail.com
+            <i className="fa-solid fa-envelope"></i> user@mail.com
           </p>
 
           <div className="flex flex-col">
@@ -32,7 +32,7 @@ export default function Navbar() {
               }}
               className="cursor-pointer hover:text-white"
             >
-              <i class="fa-solid fa-user"></i> account
+              <i className="fa-solid fa-user"></i> account
             </p>
             {accountOpen && (
               <div className="flex flex-col fixed top-10 bg-white text-black p-5">
@@ -86,7 +86,7 @@ export default function Navbar() {
       <div className="hidden md:flex lg:flex justify-center">
         <div className="w-[80%] bg-sky-600 p-3 flex justify-center gap-16">
           <Link to={"/"}>Home</Link>
-          <a href="#">Products</a>
+          <Link to={"/pubProducts"}>Products</Link>
           <a href="#">About</a>
           <a href="#">Contact Us</a>
         </div>
@@ -105,26 +105,26 @@ export default function Navbar() {
             className="bg-blue-500 active:bg-sky-900 py-2 px-4 rounded-full"
           >
             <span>
-              <i class="fa-solid fa-xmark"></i>
+              <i className="fa-solid fa-xmark"></i>
             </span>
           </button>
         </div>
         <div className="flex flex-col gap-3 border-y py-5">
           <p className="flex gap-6">
             <span>
-              <i class="fa-solid fa-phone"></i>
+              <i className="fa-solid fa-phone"></i>
             </span>
             <span>+62 85877689900</span>
           </p>
           <p className="flex gap-6">
             <span>
-              <i class="fa-solid fa-envelope"></i>
+              <i className="fa-solid fa-envelope"></i>
             </span>
             <span>userExample@mail.com</span>
           </p>
           <p className="flex gap-6">
             <span>
-              <i class="fa-solid fa-user"></i>
+              <i className="fa-solid fa-user"></i>
             </span>
             <span>account</span>
           </p>
@@ -135,28 +135,28 @@ export default function Navbar() {
             href="#"
           >
             <p>Home</p>
-            <i class="fa-solid fa-arrow-right"></i>
+            <i className="fa-solid fa-arrow-right"></i>
           </a>
           <a
             className="active:text-sky-400 border-b  py-1 flex justify-between"
             href="#"
           >
             <p>Products</p>
-            <i class="fa-solid fa-arrow-right"></i>
+            <i className="fa-solid fa-arrow-right"></i>
           </a>
           <a
             className="active:text-sky-400 border-b  py-1 flex justify-between"
             href="#"
           >
             <p>About Us</p>
-            <i class="fa-solid fa-arrow-right"></i>
+            <i className="fa-solid fa-arrow-right"></i>
           </a>
           <a
             className="active:text-sky-400 border-b  py-1 flex justify-between"
             href="#"
           >
             <p>Contact Us</p>
-            <i class="fa-solid fa-arrow-right"></i>
+            <i className="fa-solid fa-arrow-right"></i>
           </a>
         </div>
       </div>

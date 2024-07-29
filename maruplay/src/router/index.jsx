@@ -7,11 +7,16 @@ import { jwtDecode } from "jwt-decode";
 import LoginPage from "../pages/LoginPage";
 import Home from "../pages/Home";
 import RegisterPageUser from "../pages/RegisterPageUser";
+import ProductsPage from "../pages/ProductsPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/pubProducts",
+    element: <ProductsPage />,
   },
   {
     path: "/register",

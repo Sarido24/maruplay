@@ -90,7 +90,7 @@ export default function LoginPage() {
                   className="block pl-10 w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-sky-500 outline-none placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-sky-900 sm:text-sm sm:leading-6"
                 />
                 <span className="absolute top-0 p-2">
-                  <i class="fa-solid fa-key"></i>
+                  <i className="fa-solid fa-key"></i>
                 </span>
               </div>
 
