@@ -14,8 +14,8 @@ export default function Home() {
       <Swiper
         spaceBetween={50}
         slidesPerView={1}
-        onSlideChange={() => console.log("slide change")}
-        onSwiper={(swiper) => console.log(swiper)}
+        // onSlideChange={() => console.log("slide change")}
+        // onSwiper={(swiper) => console.log(swiper)}
       >
         <SwiperSlide>
           <div className="w-full h-[80vh] md:h-[90vh] bg-gradient-to-r from-cyan-950 to-blue-800 text-white flex flex-col md:flex-row justify-center gap-5  md:justify-evenly items-center">
@@ -99,7 +99,7 @@ export default function Home() {
             </h1>
             <p>$10</p>
             <button className="absolute bottom-5 right-5 text-xs md:text-xl bg-blue-600 text-white p-5 rounded-full">
-              <i class="fa-solid fa-arrow-right"></i>
+              <i className="fa-solid fa-arrow-right"></i>
             </button>
           </div>
         </div>
@@ -118,7 +118,7 @@ export default function Home() {
               <p>$10</p>
             </div>
             <button className="absolute bottom-5 right-5 text-xs md:text-xl bg-blue-600 text-white p-5 rounded-full">
-              <i class="fa-solid fa-arrow-right"></i>
+              <i className="fa-solid fa-arrow-right"></i>
             </button>
           </div>
           <div className="flex flex-col relative  h-[50%] bg-slate-200 rounded-md">
@@ -134,7 +134,7 @@ export default function Home() {
               <p>$10</p>
             </div>
             <button className="absolute bottom-5 right-5 text-xs md:text-xl bg-blue-600 text-white p-5 rounded-full">
-              <i class="fa-solid fa-arrow-right"></i>
+              <i className="fa-solid fa-arrow-right"></i>
             </button>
           </div>
         </div>

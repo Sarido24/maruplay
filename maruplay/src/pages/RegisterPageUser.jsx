@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useState } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 export default function RegisterPageUser() {
   const [dataRegister, setDataRegister] = useState({
@@ -9,6 +11,8 @@ export default function RegisterPageUser() {
     phoneNumber: "",
     address: ""
   });
+
+//   console.log(dataRegister)
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -32,16 +36,17 @@ export default function RegisterPageUser() {
         url: import.meta.env.VITE_BASE_URL + "/register",
         data,
       });
-      if (response.statusText === "OK") {
+      console.log(response);
+      if (response.status == 201) {
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: "Login success",
+          title: "Register success",
           showConfirmButton: false,
           timer: 1500,
         });
-        localStorage.setItem("access_token", response.data.access_token);
-        navigate("/");
+        // localStorage.setItem("access_token", response.data.access_token);
+        navigate("/login");
       }
     } catch (error) {
       console.log(error);
