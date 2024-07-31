@@ -14,7 +14,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
 
 
-  function handleSubmit(e) {
+  function handleChange(e) {
     // setError(null);
     const name = e.target.name;
     const value = e.target.value;
@@ -71,7 +71,7 @@ export default function LoginPage() {
             <div className="flex flex-col gap-4 justify-center items-center">
               <div className="relative z-10">
                 <input
-                  onChange={handleSubmit}
+                  onChange={handleChange}
                   type="email"
                   name="email"
                   placeholder="example@gmail.com"
@@ -83,7 +83,7 @@ export default function LoginPage() {
               </div>
               <div className="relative z-10">
                 <input
-                  onChange={handleSubmit}
+                  onChange={handleChange}
                   type="password"
                   name="password"
                   placeholder="password"

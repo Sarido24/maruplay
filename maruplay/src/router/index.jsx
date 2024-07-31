@@ -1,13 +1,11 @@
-import {
-  createBrowserRouter,
-  redirect,
-} from "react-router-dom";
+import { createBrowserRouter, redirect } from "react-router-dom";
 
 import { jwtDecode } from "jwt-decode";
 import LoginPage from "../pages/LoginPage";
 import Home from "../pages/Home";
 import RegisterPageUser from "../pages/RegisterPageUser";
 import ProductsPage from "../pages/ProductsPage";
+import Chart from "../pages/Chart";
 
 const router = createBrowserRouter([
   {
@@ -20,7 +18,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/register",
-    element: <RegisterPageUser/>,
+    element: <RegisterPageUser />,
     loader: () => {
       const token = localStorage.getItem("access_token");
       if (token) {
@@ -39,7 +37,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <LoginPage/>,
+    element: <LoginPage />,
     loader: () => {
       const token = localStorage.getItem("access_token");
       if (token) {
@@ -53,6 +51,19 @@ const router = createBrowserRouter([
         }
       } else {
         return null;
+      }
+    },
+  },
+  {
+    path: "/chart",
+    element: <Chart />,
+    loader: () => {
+      const token = localStorage.getItem("access_token");
+      if (token) {
+        return null;
+      } else {
+        sessionStorage.setItem("errorPageMessage", "You must be login first");
+        return redirect("/login");
       }
     },
   },

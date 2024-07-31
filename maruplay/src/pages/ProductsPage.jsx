@@ -11,10 +11,17 @@ export default function ProductsPage() {
     dispatch(fetchPubProducts());
   }, []);
   return (
-    <>
+    <>  
       <Navbar />
-      <h1 className="text-center text-xl p-5 bg-slate-600 uppercase space-y-10 text-white">All Products</h1>
-      <div className="grid  lg:grid-cols-3 gap-3 md:gap-10 p-5">
+      <h1 className="text-center text-xl p-5 uppercase space-y-10 font-semibold  text-blue-500">
+        All Products
+      </h1>
+      <div
+        data-aos="fade-up"
+        data-aos-delay="100"
+        data-aos-duration="1500"
+        className="grid md:grid-cols-4 gap-10 p-16 "
+      >
         {products?.map((el, i) => {
           return <Card props={el} key={i} />;
         })}
