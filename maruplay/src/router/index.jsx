@@ -27,14 +27,7 @@ const router = createBrowserRouter([
     loader: () => {
       const token = localStorage.getItem("access_token");
       if (token) {
-        try {
-          const decoded = jwtDecode(token);
-          console.log(decoded, "< decoded");
-          return redirect("/");
-        } catch (err) {
-          console.log(err, "< error dari jwt decode");
-          return null;
-        }
+        return redirect("/");
       } else {
         return null;
       }

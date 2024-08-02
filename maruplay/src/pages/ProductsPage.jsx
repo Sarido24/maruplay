@@ -9,6 +9,7 @@ export default function ProductsPage() {
   const openCartModal = useSelector((state) => state.carts.openCartModal);
   const dataCartModal = useSelector((state) => state.carts.chartDataModal);
   const products = useSelector((state) => state.products.items);
+  const loading = useSelector((state) => state.products.loading);
   const dispatch = useDispatch();
   console.log(dataCartModal);
   useEffect(() => {
@@ -20,6 +21,12 @@ export default function ProductsPage() {
       <h1 className="text-center text-xl p-5 uppercase space-y-10 font-semibold  text-blue-500">
         All Products
       </h1>
+
+      {loading &&
+       <div className="h-44 flex justify-center items-center">
+        <h1 className="animate-spin text-xl "><i className="fa-solid fa-gear"></i></h1>
+       </div>
+       }
       <div
         data-aos="fade-up"
         data-aos-delay="100"

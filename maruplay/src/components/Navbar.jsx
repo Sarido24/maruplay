@@ -1,15 +1,37 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
   const navigate = useNavigate();
   function handleLogout() {
-    localStorage.removeItem("access_token");
+    Swal.fire({
+      title: "Are you sure to log out?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, logout!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Log Out!",
+          icon: "success",
+        });
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("userLogin");
+        setAccountOpen(false)
+        navigate("/login")
+      }
+      
+    });
+
     navigate("/login");
   }
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [accountOpen, setAccountOpen] = useState(false);
 
   return (
     <>
@@ -25,7 +47,8 @@ export default function Navbar() {
                   <i className="fa-solid fa-phone"></i> +62 0857611788
                 </p>
                 <p className="px-2 border-x border-gray-500">
-                  <i className="fa-solid fa-envelope"></i> user@mail.com
+                  <i className="fa-solid fa-envelope"></i>{" "}
+                  {localStorage.getItem("userLogin")}
                 </p>
               </>
             )}
@@ -119,30 +142,50 @@ export default function Navbar() {
               <span>
                 <i className="fa-solid fa-envelope"></i>
               </span>
-              <span>userExample@mail.com</span>
+              <span>{localStorage.getItem("userLogin")}</span>
             </p>
-            <p className="flex gap-6">
+            <div className="flex gap-6">
               <span>
                 <i className="fa-solid fa-user"></i>
               </span>
-              <span>account</span>
-            </p>
+              <span
+                onClick={() => {
+                  setAccountOpen(!accountOpen);
+                }}
+                className="cursor-pointer"
+              >
+                account
+              </span>
+              {accountOpen && (
+                <div className="flex flex-col fixed top-30 right-2 bg-white text-black p-5">
+                  {localStorage.getItem("access_token") && (
+                    <button onClick={handleLogout}>Sign Out</button>
+                  )}
+                  {!localStorage.getItem("access_token") && (
+                    <div className="flex flex-col">
+                      <Link to={"/login"}>Sign in</Link>
+                      <Link to={"/register"}>Sign Up</Link>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
           <div className="flex flex-col gap-3 py-5">
-            <a
+            <Link
+              to={"/"}
               className="active:text-sky-400 border-b  py-1 flex justify-between"
-              href="#"
             >
               <p>Home</p>
               <i className="fa-solid fa-arrow-right"></i>
-            </a>
-            <a
+            </Link>
+            <Link
+              to={"/pubProducts"}
               className="active:text-sky-400 border-b  py-1 flex justify-between"
-              href="#"
             >
               <p>Products</p>
               <i className="fa-solid fa-arrow-right"></i>
-            </a>
+            </Link>
             <a
               className="active:text-sky-400 border-b  py-1 flex justify-between"
               href="#"

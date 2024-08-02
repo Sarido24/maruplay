@@ -50,6 +50,10 @@ export default function RegisterPageUser() {
       }
     } catch (error) {
       console.log(error);
+      Swal.fire({
+        icon: "error",
+        text: error.response.data.message,
+      });
       //   setError(error.response.data);
     } finally {
       setLoading(false);

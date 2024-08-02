@@ -3,19 +3,19 @@ import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 export default function LoginPage() {
-
-    const navigate = useNavigate()
+  const navigate = useNavigate();
   const [dataLogin, setDataLogin] = useState({
     email: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false)
-
+  const [loading, setLoading] = useState(false);
 
   function handleChange(e) {
     // setError(null);
+    sessionStorage.removeItem("errorPageMessage")
     const name = e.target.name;
     const value = e.target.value;
 
@@ -42,11 +42,18 @@ export default function LoginPage() {
           timer: 1500,
         });
         localStorage.setItem("access_token", response.data.access_token);
+        const decoded = jwtDecode(response.data.access_token);
+        console.log(decoded);
+        localStorage.setItem("userLogin", decoded.email);
+
         navigate("/");
       }
     } catch (error) {
       console.log(error);
-    //   setError(error.response.data);
+      Swal.fire({
+        icon: "error",
+        text: error.response.data.message,
+      });
     } finally {
       setLoading(false);
     }
@@ -60,13 +67,24 @@ export default function LoginPage() {
   return (
     <>
       <Navbar />
+      {sessionStorage.getItem("errorPageMessage")&& 
+      <div className="w-full flex justify-center  p-2 text-white mt-2">
+        <h1 className="bg-red-500 p-5 rounded-md" >{sessionStorage.getItem("errorPageMessage")}!!!</h1>
+      </div>
+      }
       <div className="flex w-full justify-center items-center h-[100vh] bg-secondary md:bg-white">
         <div className="flex flex-col items-center h-[50vh] md:h-[70vh] md:w-[70vh] md:bg-secondary md:shadow-xl rounded-lg">
           <h1 className="text-3xl font-bold text-center p-10 text-sky-500 uppercase">
             Login
           </h1>
-          {/* {loading&& <p>Loading...</p>}
-      {error&& <p className="text-red-500">{error.message}</p>} */}
+          {loading && (
+            <div className="h-44 flex justify-center items-center">
+              <h1 className="animate-spin text-xl ">
+                <i className="fa-solid fa-gear"></i>
+              </h1>
+            </div>
+          )}
+          {/* {error && <p className="text-red-500">{error.message}</p>} */}
           <div className=" h-[700px] p-10">
             <div className="flex flex-col gap-4 justify-center items-center">
               <div className="relative z-10">
