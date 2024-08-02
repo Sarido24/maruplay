@@ -7,6 +7,7 @@ export const productsSlice = createSlice({
   initialState: {
     items: [],
     loading: false,
+    detailProduct: [],
     error: null,
   },
   reducers: {
@@ -19,6 +20,9 @@ export const productsSlice = createSlice({
       const products = action.payload
 
       state.items = [...products]
+    },
+    setDetailProduct: (state, action) => {
+      state.detailProduct = action.payload;
     },
     fetchLoading: (state, action) => {
       state.loading = action.payload;
@@ -34,7 +38,7 @@ export const productsSlice = createSlice({
 
 
 // Action creators are generated for each case reducer function
-export const { fetchProductSuccess, fetchLoading, fetchError } = productsSlice.actions
+export const { fetchProductSuccess, fetchLoading, fetchError, setDetailProduct } = productsSlice.actions
 
 export function fetchPubProducts() {
   return async (dispatch) => {
@@ -47,6 +51,25 @@ export function fetchPubProducts() {
       console.log(response);
       // setProucts(response.data.rows);
       dispatch(fetchProductSuccess(response.data.rows));
+      dispatch(fetchError(null));
+    } catch (error) {
+      dispatch(fetchError(error))
+    } finally {
+      dispatch(fetchLoading(false));
+    }
+  };
+}
+export function fetchPubProductsById(id) {
+  return async (dispatch) => {
+    try {
+      dispatch(fetchLoading(true));
+      const response = await axios({
+        method: "get",
+        url: import.meta.env.VITE_BASE_URL + `/pub/products/${id}`,
+      });
+      // console.log(response);
+      // setProucts(response.data.rows);
+      dispatch(setDetailProduct(response.data));
       dispatch(fetchError(null));
     } catch (error) {
       dispatch(fetchError(error))

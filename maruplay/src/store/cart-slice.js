@@ -84,6 +84,7 @@ export function fetchMyCart() {
 }
 export function addToMyCart(obj = {}) {
   const {id, quantity} = obj
+  
 
   return async (dispatch) => {
     try {
@@ -93,7 +94,7 @@ export function addToMyCart(obj = {}) {
         method: "post",
         url: import.meta.env.VITE_BASE_URL + "/carts/" + id,
         data: {
-          quantity,
+          quantity : parseInt(quantity),
         },
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),

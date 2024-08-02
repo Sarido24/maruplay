@@ -5,15 +5,19 @@ import {
   setCartDataModal,
   setOpenCartModal,
 } from "../store/cart-slice";
+import { useNavigate } from "react-router-dom";
 
-export default function Card({ props }) {;
+export default function Card({ props }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const openCartModal = useSelector((state) => state.carts.openCartModal);
   const { name, imgUrl, description, price, stock, id } = props;
 
   function handleAddChart() {
-    dispatch(setCartDataModal(props))
-    dispatch(setOpenCartModal(!openCartModal));
+    if (localStorage.getItem("access_token")) {
+      dispatch(setCartDataModal(props));
+      dispatch(setOpenCartModal(!openCartModal));
+    }
     // dispatch(addToMyCart(props))
   }
 
@@ -34,8 +38,10 @@ export default function Card({ props }) {;
         >
           <i className="fa-solid fa-cart-shopping"></i>
         </button>
-        <button className="hover:text-blue-700 transition-all duration-500 hover:scale-110 active:scale-125">
-          <i className="fa-solid fa-heart"></i>
+        <button  onClick={() => {
+          navigate("/pubProducts/" + props.id);
+        }} className="hover:text-blue-700 transition-all duration-500 hover:scale-110 active:scale-125">
+          <i className="fa-solid fa-circle-info"></i>
         </button>
       </div>
     </div>

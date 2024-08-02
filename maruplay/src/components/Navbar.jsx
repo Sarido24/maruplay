@@ -13,18 +13,22 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="bg-gray-950 text text-white pb-3 sticky top-0 z-10 md:static">
+      <div className="bg-gray-950 text text-white pb-3 sticky top-0 z-50 md:static">
         <div className="h-[20%] border-b border-slate-700 flex justify-evenly p-2 ">
           <div className="text-sm md:text-md lg:text-lg">
             <p>wellcome to the world of toys</p>
           </div>
           <div className="justify-between gap-10 hidden lg:flex text-gray-500">
-            <p className="">
-              <i className="fa-solid fa-phone"></i> +62 0857611788
-            </p>
-            <p className="px-2 border-x border-gray-500">
-              <i className="fa-solid fa-envelope"></i> user@mail.com
-            </p>
+            {localStorage.getItem("access_token") && (
+              <>
+                <p className="">
+                  <i className="fa-solid fa-phone"></i> +62 0857611788
+                </p>
+                <p className="px-2 border-x border-gray-500">
+                  <i className="fa-solid fa-envelope"></i> user@mail.com
+                </p>
+              </>
+            )}
 
             <div className="flex flex-col">
               <p
@@ -156,7 +160,7 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-      <div className="hidden md:flex lg:flex justify-center sticky top-0 z-40">
+      <div className="hidden md:flex lg:flex justify-center sticky top-0 z-50">
         <div className="w-full bg-sky-600 p-3 flex justify-center gap-16 text-white">
           <Link to={"/"}>Home</Link>
           <Link to={"/pubProducts"}>Products</Link>
