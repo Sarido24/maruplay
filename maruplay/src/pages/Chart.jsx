@@ -6,6 +6,11 @@ import { fetchMyCart } from "../store/cart-slice";
 export default function Chart() {
   const dispatch = useDispatch();
   const myChartData = useSelector((state) => state.carts.myCart);
+  console.log(myChartData);
+  function subTotal(quantity, price){
+    const total = quantity * price
+    return total
+  }
 
   useEffect(() => {
     dispatch(fetchMyCart());
@@ -43,7 +48,7 @@ export default function Chart() {
                   />
                 </div>
                 <div className="flex justify-center items-center bg-slate-200">
-                  <h1 className="font-semibold">{el.Product.name}</h1>
+                  <h1 className="font-semibold p-2">{el.Product.name}</h1>
                 </div>
                 <div className="flex justify-center items-center bg-slate-200">
                   <input
@@ -53,7 +58,7 @@ export default function Chart() {
                   />
                 </div>
                 <div className="flex justify-center items-center bg-slate-200">
-                  <h1>Rp. {el.Product.price}</h1>
+                  <h1>Rp. {subTotal(el.quantity, el.Product.price)}</h1>
                 </div>
               </div>
             </>

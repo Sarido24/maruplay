@@ -1,11 +1,16 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { fetchPubProducts, searchProduct } from "../store/products-slice";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   function handleLogout() {
     Swal.fire({
       title: "Are you sure to log out?",
@@ -23,15 +28,29 @@ export default function Navbar() {
         });
         localStorage.removeItem("access_token");
         localStorage.removeItem("userLogin");
-        setAccountOpen(false)
-        navigate("/login")
+        setAccountOpen(false);
+        navigate("/login");
       }
-      
     });
 
     navigate("/login");
   }
+  
+  console.log(search);
 
+  function handleChangeSearch(e) {
+    const value = e.target.value;
+    setSearch(value);
+  }
+
+  function handleSearch(e) {
+    e.preventDefault()
+    if (search) {
+      dispatch(searchProduct(search));
+    }else{
+      dispatch(fetchPubProducts())
+    }
+  }
 
   return (
     <>
@@ -105,11 +124,15 @@ export default function Navbar() {
         </div>
         <form className="flex justify-center p-5 rounded-xl ">
           <input
+            onChange={handleChangeSearch}
             placeholder="search"
             type="text"
             className="w-[80%] md:w-[50%] lg:w-[40%] px-3 rounded-l-md text-black focus:border-none focus:outline-none"
           />
-          <button className="h-full bg-sky-600 px-5 hover:bg-blue-500 active:bg-blue-700 py-2 text-2xl rounded-r-md">
+          <button
+            onClick={handleSearch}
+            className="h-full bg-sky-600 px-5 hover:bg-blue-500 active:bg-blue-700 py-2 text-2xl rounded-r-md"
+          >
             <i className="fa-solid fa-magnifying-glass"></i>
           </button>
         </form>

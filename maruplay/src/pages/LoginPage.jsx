@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Swal from "sweetalert2";
@@ -15,7 +15,7 @@ export default function LoginPage() {
 
   function handleChange(e) {
     // setError(null);
-    sessionStorage.removeItem("errorPageMessage")
+    sessionStorage.removeItem("errorPageMessage");
     const name = e.target.name;
     const value = e.target.value;
 
@@ -63,15 +63,67 @@ export default function LoginPage() {
     login(dataLogin);
   }
 
+  function handleCredentialResponse(response) {
+    const decode = jwtDecode(response.credential)
+    console.log(decode);
+    localStorage.setItem("userLogin", decode.email)
+    const googleToken = response.credential;
+
+    async function googleLogin() {
+      try {
+        setLoading(true);
+        const response = await axios({
+          method: "post",
+          url: import.meta.env.VITE_BASE_URL + "/google-login",
+          data: {
+            googleToken,
+            googleClientId: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+          },
+        });
+
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Login success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        localStorage.setItem("access_token", response.data.access_token);
+        navigate("/");
+      } catch (error) {
+        console.log(error);
+        // setError(error.response.data);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    googleLogin();
+  }
+
+  useEffect(() => {
+    window.google.accounts.id.initialize({
+      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+      callback: handleCredentialResponse,
+    });
+    window.google.accounts.id.renderButton(
+      document.getElementById("buttonDiv"),
+      { theme: "outline", size: "large" } // customization attributes
+    );
+    window.google.accounts.id.prompt(); // also display the One Tap dialog
+  }, []);
+
   //   console.log(dataLogin);
   return (
     <>
       <Navbar />
-      {sessionStorage.getItem("errorPageMessage")&& 
-      <div className="w-full flex justify-center  p-2 text-white mt-2">
-        <h1 className="bg-red-500 p-5 rounded-md" >{sessionStorage.getItem("errorPageMessage")}!!!</h1>
-      </div>
-      }
+      {sessionStorage.getItem("errorPageMessage") && (
+        <div className="w-full flex justify-center  p-2 text-white mt-2">
+          <h1 className="bg-red-500 p-5 rounded-md">
+            {sessionStorage.getItem("errorPageMessage")}!!!
+          </h1>
+        </div>
+      )}
       <div className="flex w-full justify-center items-center h-[100vh] bg-secondary md:bg-white">
         <div className="flex flex-col items-center h-[50vh] md:h-[70vh] md:w-[70vh] md:bg-secondary md:shadow-xl rounded-lg">
           <h1 className="text-3xl font-bold text-center p-10 text-sky-500 uppercase">
@@ -120,6 +172,7 @@ export default function LoginPage() {
                   Login
                 </button>
               </div>
+              <div id="buttonDiv"></div>
             </div>
           </div>
         </div>
